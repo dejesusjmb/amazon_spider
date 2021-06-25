@@ -1,20 +1,13 @@
 from datetime import datetime
 
-import scrapy
-from scrapy import Request, FormRequest
+from scrapy import Spider, Request, FormRequest
 
 from amazon_spider.items import AmazonSpiderItem
 
 
-class AmazonSpider(scrapy.Spider):
-    name = 'amazon'
-
+class AmazonSpider(Spider):
     def __init__(self, **kwargs):
-        base_url = {
-            'us': 'https://www.amazon.com',
-            'uk': 'https://www.amazon.co.uk'
-        }
-        self.base_url = base_url[kwargs['marketplace']]
+        self.base_url = kwargs['base_url']
         self.asin = kwargs['asin']
         super().__init__(**kwargs)
 
