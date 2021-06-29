@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 from scrapy import Spider, Request, FormRequest
@@ -12,6 +13,11 @@ class AmazonSpider(Spider):
         super().__init__(**kwargs)
 
     def start_requests(self):
+        yield Request(url='http://checkip.amazonaws.com/',
+                      callback=self.handle_amazon_page)
+
+    def handle_amazon_page(self, response):
+        logging.info(f'IP Address: {response.text}')
         meta = {'cookiejar': str(datetime.now()), 'asin': self.asin}
 
         yield Request(url=f'{self.base_url}/gp/cart/view.html?ref_=nav_cart',

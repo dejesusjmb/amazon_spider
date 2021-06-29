@@ -69,8 +69,8 @@ class AmazonSpiderPipeline:
         return item_details.xpath('.//span[@class="a-offscreen"]/text()').extract_first()
 
     def extract_delivery_date(self, item_details):
-        us_date = item_details.xpath('.//div[@id="delivery-message"]/b/text()').extract_first()
-        uk_date = item_details.xpath('.//div[@id="ddmDeliveryMessage"]/b/text()').extract_first()
+        us_date = item_details.xpath('.//div[@id="delivery-message"]//b/text()').extract_first()
+        uk_date = item_details.xpath('.//div[@id="ddmDeliveryMessage"]//b/text()').extract_first()
         return us_date or uk_date
 
     def extract_ratings(self, item_details):
