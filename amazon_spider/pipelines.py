@@ -23,7 +23,7 @@ class AmazonSpiderPipeline:
         shipped_from = self.extract_shipped_from(item_details)
         price = self.extract_price(item_details)
         delivery_date = self.extract_delivery_date(item_details)
-        ratings_percentage, number_of_feedback = self.extract_ratings(item_details)
+        ratings_percentage, number_of_feedback = self.extract_ratings(item_details, sold_by)
 
         item_details = {
             'sold_by': sold_by,
@@ -73,7 +73,7 @@ class AmazonSpiderPipeline:
         uk_date = item_details.xpath('.//div[@id="ddmDeliveryMessage"]//b/text()').extract_first()
         return us_date or uk_date
 
-    def extract_ratings(self, item_details):
+    def extract_ratings(self, item_details, sold_by):
         ratings = item_details.xpath(
             './/span[@id="seller-rating-count-{iter}"]/span/text()').extract()
         if ratings:
@@ -86,6 +86,9 @@ class AmazonSpiderPipeline:
 
         number_of_feedback = (re.findall(r'\d+', number_of_feedback)[0]
                               if number_of_feedback else '')
+
+        if not ratings_percentage and 'amazon' in sold_by.lower():
+            ratings_percentage = '100%'
 
         return ratings_percentage, number_of_feedback
 
