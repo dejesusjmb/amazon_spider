@@ -57,7 +57,7 @@ def scrape(args):
 
 def save(asin, items):
     with open(f'{asin}.json', 'w') as f:
-        f.write(json.dumps(items, indent=4))
+        f.write(json.dumps(items, indent=4, ensure_ascii=False))
 
 
 def parse_arguments():
