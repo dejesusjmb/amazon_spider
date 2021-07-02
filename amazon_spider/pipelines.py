@@ -84,7 +84,7 @@ class AmazonSpiderPipeline:
             number_of_feedback = item_details.xpath(
                 './/span[@id="aod-asin-reviews-count-title"]/text()').extract_first()
 
-        number_of_feedback = (re.findall(r'\d+', number_of_feedback)[0]
+        number_of_feedback = (re.findall(r'\d+,*\d+', number_of_feedback)[0]
                               if number_of_feedback else '')
 
         if not ratings_percentage and 'amazon' in sold_by.lower():
